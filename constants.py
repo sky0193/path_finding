@@ -1,1 +1,1 @@
-﻿GRID_CELLS = 5
+﻿GRID_CELLS = 21

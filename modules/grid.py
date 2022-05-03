@@ -1,5 +1,7 @@
 ﻿from typing import List
-from modules.cell import Cell
+
+from matplotlib.pyplot import cla
+from modules.cell import Cell, CellMaze, CellStatus
 
 class Grid:
     '''Grid class'''
@@ -10,7 +12,7 @@ class Grid:
         '''
         self.rows: int = rows
         self.cols: int = col
-        self.cell_grid: List[List[Cell]] = []
+        self.cell_grid = []
 
     def initialize_grid(self) -> None:
         self.cell_grid = [[Cell(x, y) for y in range(self.rows)] for x in range(self.cols)]
@@ -46,3 +48,16 @@ class Grid:
             neighbor = self.cell_grid[i][j - 1]
             if not(neighbor.obstacle):
                 self.cell_grid[i][j].neighbors.append(neighbor)
+
+class GridMaze(Grid):
+    def __init__(self, rows: int, col: int):
+        Grid.__init__(self, rows=rows, col=col)
+
+    def initialize_grid(self) -> None:
+        self.cell_grid = [[CellMaze(x, y) for y in range(self.rows)] for x in range(self.cols)]
+
+    def print_dfs_grid(self) -> None:
+        for i in range(0, self.rows):
+            for j in range(0, self.cols):
+                self.cell_grid[i][j].print()
+            print("\n", end='')

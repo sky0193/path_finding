@@ -4,18 +4,24 @@ from typing import Tuple
 
 from py import process
 from modules.cell import Cell
-from modules.grid import Grid
+from modules.grid import Grid, GridMaze
 
 
 def create_grid(rows, cols):
     ''' '''
     area: Grid = Grid(rows, cols)
     area.initialize_grid()
+    #area.print_grid()
+    return area
+
+def create_grid_Maze(rows, cols):
+    ''' '''
+    area: GridMaze = GridMaze(rows, cols)
+    area.initialize_grid()
     area.print_grid()
     return area
 
-
-class A_star_search_algorithm:
+class AStarSearchAlgorithm:
     def __init__(self, area: Grid, startNodeKoordinates: Tuple[int, int], endNodeKoordinates: Tuple[int, int]):
         self.area = area
         self.openSet: List[Cell] = []

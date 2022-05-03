@@ -1,4 +1,6 @@
 ﻿from typing import List
+from enum import Enum
+
 
 class Cell:
     def __init__(self, i: int, j: int):
@@ -13,3 +15,29 @@ class Cell:
 
     def print_location(self):
         print(f"({self.i} {self.j})", end='')
+
+class CellWithWalls(Cell):
+    def __init__(self, i: int, j: int):
+        Cell.__init__(self=self, i=i, j=j)
+        self.wall_left = False
+        self.wall_rigth = False
+        self.wall_top = True
+        self.wall_bottom = True
+
+class CellStatus(Enum):
+    Unvisited = 1
+    Wall = 2
+    Free = 3
+
+class CellMaze(Cell):
+    def __init__(self, i: int, j: int):
+        Cell.__init__(self=self, i=i, j=j)
+        self.status = CellStatus.Unvisited
+    
+    def print(self):
+        if(self.status == CellStatus.Unvisited):
+            print("u", end='')
+        if(self.status == CellStatus.Wall):
+            print("w", end='')
+        if(self.status == CellStatus.Free):
+            print("f", end='')
