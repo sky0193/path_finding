@@ -2,7 +2,7 @@
 import pygame
 from pygame.locals import KEYDOWN, K_q
 
-import constants
+import view_helper
 import archiv.grid as grid
 
 
@@ -40,13 +40,13 @@ _VARS = {'surf': False}
 
 
 def main():
-    area, openSet, closedSet, endNode = path_search_algorithms.setup(constants.GRID_CELLS, constants.GRID_CELLS)
+    area, openSet, closedSet, endNode = path_search_algorithms.setup(view_helper.GRID_CELLS, view_helper.GRID_CELLS)
     pygame.init()
     _VARS['surf'] = pygame.display.set_mode(WINDOWSIZE)
     while True:
         checkEvents()
         _VARS['surf'].fill(GREY)
-        drawGrid(constants.GRID_CELLS)
+        drawGrid(view_helper.GRID_CELLS)
 
         #for i in range(0, constants.GRID_CELLS):
         #  for j in range(0, constants.GRID_CELLS):
@@ -61,8 +61,8 @@ def main():
         else:
           for cell in path:
             drawRect(cell.i,cell.j, BLUE)
-        for i in range(0, constants.GRID_CELLS):
-          for j in range(0, constants.GRID_CELLS):
+        for i in range(0, view_helper.GRID_CELLS):
+          for j in range(0, view_helper.GRID_CELLS):
               if(area.cell_grid[i][j].obstacle):
                 drawRect(i, j, BLACK)
 
@@ -72,8 +72,8 @@ def main():
 
 def drawRect(i,j, color):
 
-    width = GRID_WIDTH_HEIGHT / constants.GRID_CELLS
-    height = GRID_WIDTH_HEIGHT / constants.GRID_CELLS
+    width = GRID_WIDTH_HEIGHT / view_helper.GRID_CELLS
+    height = GRID_WIDTH_HEIGHT / view_helper.GRID_CELLS
 
 
     #    | 0   1   2  3 . . .   5                  m

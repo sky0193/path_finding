@@ -1,5 +1,5 @@
 ﻿import pygame
-from modules.colors import *
+from view_helper.colors import *
 
 
 class Button:

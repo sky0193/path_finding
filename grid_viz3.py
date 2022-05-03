@@ -1,6 +1,6 @@
 ﻿import pygame
 import path_search_algorithms
-import modules.colors
+import view_helper.colors
 from modules.button import Button
 from typing import List
 from rectangle import Rectangle
@@ -59,21 +59,21 @@ def draw_obstacles(area, mySurface2) -> None:
     for i in range(0, GRID_CELLS):
         for j in range(0, GRID_CELLS):
             if(area.cell_grid[i][j].obstacle):
-                draw_rectangle(i, j, modules.colors.BLACK, mySurface2)
+                draw_rectangle(i, j, view_helper.colors.BLACK, mySurface2)
 
 
 def draw_start_end_node(startNodeKoordinates, endNodeKoordinates, mySurface2) -> None:
-    draw_rectangle(startNodeKoordinates[0], startNodeKoordinates[1], modules.colors.BLUE, mySurface2)
-    draw_rectangle(endNodeKoordinates[0], endNodeKoordinates[1], modules.colors.BLUE, mySurface2)
+    draw_rectangle(startNodeKoordinates[0], startNodeKoordinates[1], view_helper.colors.BLUE, mySurface2)
+    draw_rectangle(endNodeKoordinates[0], endNodeKoordinates[1], view_helper.colors.BLUE, mySurface2)
 
 
 def draw_basic_grid(area, mySurface2) -> List[Rectangle]:
     rectangles = []
     for row in range(GRID_CELLS):
         for column in range(GRID_CELLS):
-            color = modules.colors.WHITE
+            color = view_helper.colors.WHITE
             if area.cell_grid[row][column] == 1:
-                color = modules.colors.GREEN
+                color = view_helper.colors.GREEN
             rec: pygame.Rect = draw_rectangle(row, column, color, mySurface2)
             rectangle = Rectangle(row, column, rec)
             rectangles.append(rectangle)
@@ -82,12 +82,12 @@ def draw_basic_grid(area, mySurface2) -> List[Rectangle]:
 def draw_A_star_processing(area, mySurface2):
     if not(area.pathFound):
         for cell in area.openSet:
-            draw_rectangle(cell.i, cell.j, modules.colors.GREEN, mySurface2)
+            draw_rectangle(cell.i, cell.j, view_helper.colors.GREEN, mySurface2)
         for cell in area.closedSet:
-            draw_rectangle(cell.i, cell.j, modules.colors.RED, mySurface2)
+            draw_rectangle(cell.i, cell.j, view_helper.colors.RED, mySurface2)
     else:
         for cell in area.path:
-            draw_rectangle(cell.i, cell.j, modules.colors.BLUE_LIGTH, mySurface2)
+            draw_rectangle(cell.i, cell.j, view_helper.colors.BLUE_LIGTH, mySurface2)
 
 
 def main():
@@ -99,12 +99,12 @@ def main():
     mySurface_width = WIDTH
     mySurface_length = LENGTH_FIRST_SURFACE
     mySurface = pygame.Surface((mySurface_width, mySurface_length))
-    mySurface.fill(modules.colors.GREY_LIGHT)
+    mySurface.fill(view_helper.colors.GREY_LIGHT)
 
     mySurface2_width = WIDTH
     mySurface2_length = HEIGHT - mySurface_length
     mySurface2 = pygame.Surface((mySurface2_width, mySurface2_length))
-    mySurface2.fill(modules.colors.GREEN)
+    mySurface2.fill(view_helper.colors.GREEN)
 
     done = False
 
@@ -157,7 +157,7 @@ def main():
         draw_obstacles(area, mySurface2)
         draw_start_end_node(startNodeKoordinates, endNodeKoordinates, mySurface2)
 
-        mySurface.fill(modules.colors.GREY_LIGHT)
+        mySurface.fill(view_helper.colors.GREY_LIGHT)
 
         button_start.draw()
         button_reset.draw()
