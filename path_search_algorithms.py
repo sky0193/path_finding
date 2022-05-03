@@ -62,6 +62,7 @@ class A_star_search_algorithm:
                 if not(neighbor in self.openSet):
                     heuristic_value = self.heuristic(neighbor.i, neighbor.j, endNode.i, endNode.j)
                     self.set_more_optimal_neighbor(current, neighbor, g_from_current, heuristic_value)
+                    self.openSet.append(neighbor)
 
     def check_no_path_exists(self):
         if(len(self.openSet) == 0):
