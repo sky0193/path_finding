@@ -10,10 +10,9 @@ class Grid:
         '''
         self.rows: int = rows
         self.cols: int = col
-        
         self.cell_grid: List[List[Cell]] = []
 
-    def initialize_grid(self):
+    def initialize_grid(self) -> None:
         self.cell_grid = [[Cell(x, y) for y in range(self.rows)] for x in range(self.cols)]
 
     def print_grid(self) -> None:
@@ -25,7 +24,7 @@ class Grid:
     def fill_neighbors_for_each_cell(self) -> None:
         for i in range(0, self.rows):
             for j in range(0, self.cols):
-                self.add_neighbors(i, j, self.rows, self.cols)
+                self.add_neighbors(i=i, j=j, rows=self.rows, cols=self.cols)
 
     # TODO look for better implementation
     def add_neighbors(self, i: int, j: int, rows: int, cols: int) -> None:

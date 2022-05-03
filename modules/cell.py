@@ -9,7 +9,7 @@ class Cell:
         self.g: float = 0  # g(n), the distance from the start node to n
         self.h: float = 0  # heuristic function h(n), the estimated distance from node n to the goal node
         self.neighbors: List[Cell] = []
-        self.previous = 0
+        self.previous: Cell = None
 
     def print_location(self):
         print(f"({self.i} {self.j})", end='')

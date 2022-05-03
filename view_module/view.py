@@ -9,24 +9,34 @@ from view_helper.view_constants import WIDTH, HEIGHT, WINDOWSIZE, MARGIN, LENGTH
 
 
 def set_up_start_button(mySurface) -> Button:
-    button_start_pos_x = 10
-    button_start_pos_y = LENGTH_FIRST_SURFACE / 2
-    button_start_pos_width = 60
+    button_start_pos_x: int = 10
+    button_start_pos_y: int = int(LENGTH_FIRST_SURFACE / 2)
+    button_start_pos_width: int = 60
     button_start_pos_heigth = 30
     button_start_elevation = 10
-    button_start: Button = Button('Start', button_start_pos_x, button_start_pos_y, button_start_pos_width,
-                                  button_start_pos_heigth, button_start_elevation, mySurface)
+    button_start: Button = Button(text='Start',
+                                  pos_x=button_start_pos_x,
+                                  pos_y=button_start_pos_y,
+                                  width=button_start_pos_width,
+                                  height=button_start_pos_heigth,
+                                  elevation=button_start_elevation,
+                                  mySurface=mySurface)
     return button_start
 
 
 def set_up_reset_button(mySurface) -> Button:
-    button_reset_pos_x = WIDTH / 3
-    button_reset_pos_y = LENGTH_FIRST_SURFACE / 2
+    button_reset_pos_x = int(WIDTH / 3)
+    button_reset_pos_y = int(LENGTH_FIRST_SURFACE / 2)
     button_reset_pos_width = 60
     button_reset_pos_heigth = 30
     button_reset_elevation = 10
-    button_reset: Button = Button('Reset', button_reset_pos_x, button_reset_pos_y, button_reset_pos_width,
-                                  button_reset_pos_heigth, button_reset_elevation, mySurface)
+    button_reset: Button = Button('Reset',
+                                  pos_x=button_reset_pos_x,
+                                  pos_y=button_reset_pos_y,
+                                  width=button_reset_pos_width,
+                                  height=button_reset_pos_heigth,
+                                  elevation=button_reset_elevation,
+                                  mySurface=mySurface)
     return button_reset
 
 

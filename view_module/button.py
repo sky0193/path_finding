@@ -1,31 +1,34 @@
-﻿import pygame
+﻿from typing import Tuple
+import pygame
 import view_helper.colors
 
 class Button:
-    def __init__(self, text, pos_x, pos_y, width, height, elevation, mySurface):
-        self.elevation = elevation
-        self.dynamic_elecation = elevation
-        self.pos_x = pos_x
-        self.pos_y = pos_y
-        self.surface = mySurface
-        self.pressed = False
+    def __init__(self, text: str, pos_x: int, pos_y: int, width: int, height: int,
+                 elevation: int, mySurface: pygame.surface.Surface):
+
+        self.elevation: int = elevation
+        self.dynamic_elecation: int = elevation
+        self.pos_x: int = pos_x
+        self.pos_y: int = pos_y
+        self.surface: pygame.surface.Surface = mySurface
+        self.pressed: bool = False
 
         # top rectangle
-        self.top_rect = pygame.Rect((pos_x, pos_y), (width, height))
-        self.top_color = view_helper.colors.GREY
+        self.top_rect: pygame.rect.Rect = pygame.Rect((pos_x, pos_y), (width, height))
+        self.top_color: Tuple[int, int, int] = view_helper.colors.GREY
 
         # bottom rectangle
-        self.bottom_rect = pygame.Rect((pos_x, pos_y), (width, height))
-        self.bottom_color = view_helper.colors.BLACK
+        self.bottom_rect: pygame.rect.Rect = pygame.Rect((pos_x, pos_y), (width, height))
+        self.bottom_color: Tuple[int, int, int] = view_helper.colors.BLACK
 
-        self.text = text
+        self.text: str = text
 
-        self.text_surface = mySurface
+        self.text_surface: pygame.surface.Surface = mySurface
         self.text_surface = pygame.font.Font(None, 30).render(text, True, view_helper.colors.WHITE)
 
-        self.text_rect = self.text_surface.get_rect(center=self.top_rect.center)
+        self.text_rect: pygame.rect.Rect = self.text_surface.get_rect(center=self.top_rect.center)
 
-    def draw(self):
+    def draw(self) -> None:
         # elevation logic
         self.top_rect.y = self.pos_y - self.dynamic_elecation
         self.text_rect.center = self.top_rect.center
@@ -39,7 +42,7 @@ class Button:
         self.surface.blit(self.text_surface, self.text_rect)
         self.check_click()
 
-    def check_click(self):
+    def check_click(self) -> None:
         mouse_pos = pygame.mouse.get_pos()
         if self.top_rect.collidepoint(mouse_pos):
             self.top_color = view_helper.colors.ROSE
