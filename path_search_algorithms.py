@@ -67,7 +67,7 @@ class A_star_search_algorithm:
     def check_no_path_exists(self):
         if(len(self.openSet) == 0):
             self.noPathExist = True
-            return
+            return True
 
     def A_star_step(self, endNodeKoordinates):
         endNode = self.area.cell_grid[endNodeKoordinates[0]][endNodeKoordinates[1]]
