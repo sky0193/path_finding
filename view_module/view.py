@@ -65,7 +65,7 @@ class View:
         self.button_start.draw()
         self.button_reset.draw()
 
-    def draw_rectangle(self, i, j, color, surface) -> pygame.Rect:
+    def draw_rectangle(self, i, j, color, surface) -> pygame.rect.Rect:
         return pygame.draw.rect(surface,
                                 color,
                                 [(MARGIN + self.width_cell) * j + MARGIN,
@@ -93,7 +93,7 @@ class View:
             for cell in a_star_search.path:
                 self.draw_rectangle(cell.i, cell.j, view_helper.colors.BLUE_LIGTH, self.mySurface2)
 
-    def draw_basic_grid(self) -> List[Rectangle]:
+    def draw_basic_grid(self):
         for rectangle in self.rectangles:
             pygame.draw.rect(self.mySurface2,
                              view_helper.colors.WHITE,
@@ -108,4 +108,3 @@ class View:
                                                self.height_cell)
                 rectangle = Rectangle(row, column, rec)
                 self.rectangles.append(rectangle)
-

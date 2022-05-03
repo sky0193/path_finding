@@ -4,7 +4,6 @@ from typing import List
 
 from py import process
 from modules.cell import Cell
-
 from modules.grid import Grid
 
 
