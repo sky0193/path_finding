@@ -7,21 +7,21 @@ buttons = []
 class Button:
 
     def __init__(self, text, width, height, pos, elevation):
-        #Core attributes 
+        # Core attributes
         self.pressed = False
         self.elevation = elevation
         self.dynamic_elecation = elevation
         self.original_y_pos = pos[1]
 
-        # top rectangle 
+        # top rectangle
         self.top_rect = pygame.Rect(pos, (width, height))
         self.top_color = '#475F77'
 
-        # bottom rectangle 
+        # bottom rectangle
         self.bottom_rect = pygame.Rect(pos, (width, height))
         self.bottom_color = '#354B5E'
 
-        #text
+        # text
         self.text = text
         self.text_surf = gui_font.render(text, True, '#FFFFFF')
         self.text_rect = self.text_surf.get_rect(center=self.top_rect.center)
@@ -32,7 +32,7 @@ class Button:
         self.text_rect = self.text_surf.get_rect(center=self.top_rect.center)
 
     def draw(self):
-        # elevation logic 
+        # elevation logic
         self.top_rect.y = self.original_y_pos - self.dynamic_elecation
         self.text_rect.center = self.top_rect.center
 
@@ -54,7 +54,7 @@ class Button:
                 self.change_text(f"{self.text}")
             else:
                 self.dynamic_elecation = self.elevation
-                if self.pressed == True:
+                if self.pressed:
                     print('click')
                     self.pressed = False
                     self.change_text(self.text)
@@ -63,14 +63,14 @@ class Button:
             self.top_color = '#475F77'
 
 pygame.init()
-screen = pygame.display.set_mode((500,500))
+screen = pygame.display.set_mode((500, 500))
 pygame.display.set_caption('Gui Menu')
 clock = pygame.time.Clock()
-gui_font = pygame.font.Font(None,30)
+gui_font = pygame.font.Font(None, 30)
 
-button1 = Button('Rome',200,40,(100,200),5)
-button2 = Button('Milan',200,40,(100,250),5)
-button3 = Button('Neaples',200,40,(100,300),5)
+button1 = Button('Rome', 200, 40, (100, 200), 5)
+button2 = Button('Milan', 200, 40, (100, 250), 5)
+button3 = Button('Neaples', 200, 40, (100, 300), 5)
 
 
 def buttons_draw():
@@ -82,9 +82,9 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-    
+
     screen.fill('#DCDDD8')
     buttons_draw()
-    
+
     pygame.display.update()
     clock.tick(60)
