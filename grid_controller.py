@@ -89,7 +89,6 @@ def draw_A_star_processing(a_star_search, mySurface2):
         for cell in a_star_search.path:
             draw_rectangle(cell.i, cell.j, view_helper.colors.BLUE_LIGTH, mySurface2)
 
-
 def main():
     pygame.init()
     clock = pygame.time.Clock()

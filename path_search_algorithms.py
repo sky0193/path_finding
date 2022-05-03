@@ -8,13 +8,6 @@ from modules.cell import Cell
 from modules.grid import Grid
 
 
-def create_grid(rows, cols):
-    ''' '''
-    area: Grid = Grid(rows, cols)
-    area.initialize_grid()
-    area.print_grid()
-
-    return area
 
 
 class A_star_search_algorithm:
@@ -27,6 +20,7 @@ class A_star_search_algorithm:
         self.noPathExist: bool = False
         self.startNodeKoordinates = startNodeKoordinates
         self.endNodeKoordinates = endNodeKoordinates
+        self.step_cost = 1
 
     def setup_A_Stern_setup(self):
         self.area.fill_neighbors_for_each_cell()
@@ -42,6 +36,12 @@ class A_star_search_algorithm:
             self.path.append(temp.previous)
             temp = temp.previous
 
+    def set_more_optimal_neighbor(self, current, neighbor, g_from_current, heuristic):
+        neighbor.g = g_from_current
+        neighbor.h = heuristic
+        neighbor.f = neighbor.g + neighbor.h
+        neighbor.previous = current
+
     def process_current_node(self, current: Cell, endNode: Cell):
         self.openSet.remove(current)
         self.closedSet.append(current)
@@ -49,22 +49,13 @@ class A_star_search_algorithm:
 
         for neighbor in neighbors:
             if not(neighbor in self.closedSet):
-                g_from_current: float = current.g + 1
-
-                neighbor_in_openSet = (neighbor in self.openSet)
-
-                if(neighbor in self.openSet):
-                    if(g_from_current < neighbor.g):
-                        neighbor.g = g_from_current
-                        neighbor.h = self.heuristic(neighbor.i, neighbor.j, endNode.i, endNode.j)
-                        neighbor.f = neighbor.g + neighbor.h
-                        neighbor.previous = current
-                else:
-                    neighbor.g = g_from_current
-                    neighbor.h = self.heuristic(neighbor.i, neighbor.j, endNode.i, endNode.j)
-                    neighbor.f = neighbor.g + neighbor.h
-                    neighbor.previous = current
-                    self.openSet.append(neighbor)
+                g_from_current: float = current.g + self.step_cost
+                if(g_from_current < neighbor.g):
+                    heuristic_value = self.heuristic(neighbor.i, neighbor.j, endNode.i, endNode.j)
+                    self.set_more_optimal_neighbor(current, neighbor, g_from_current, heuristic_value)
+                if not(neighbor in self.openSet):
+                    heuristic_value = self.heuristic(neighbor.i, neighbor.j, endNode.i, endNode.j)
+                    self.set_more_optimal_neighbor(current, neighbor, g_from_current, heuristic_value)
 
     def check_no_path_exists(self):
         if(len(self.openSet) == 0):
