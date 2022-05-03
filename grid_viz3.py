@@ -1,7 +1,7 @@
 ﻿import pygame
 import path_search_algorithms
 import view_helper.colors
-from modules.button import Button
+from view_modules.button import Button
 from typing import List
 from rectangle import Rectangle
 
