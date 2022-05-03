@@ -1,6 +1,8 @@
 ﻿from pickle import TRUE
 import numpy as np
 from typing import List
+
+from py import process
 from modules.cell import Cell
 
 from modules.grid import Grid
@@ -16,55 +18,41 @@ def create_grid(rows, cols):
 
 
 class A_star_search_algorithm:
-    def __init__(self, area: Grid):
+    def __init__(self, area: Grid, startNodeKoordinates, endNodeKoordinates):
         self.area = area
         self.openSet: List[Cell] = []
         self.closedSet: List[Cell] = []
         self.path: List[Cell] = []
         self.pathFound: bool = False
         self.noPathExist: bool = False
+        self.startNodeKoordinates = startNodeKoordinates
+        self.endNodeKoordinates = endNodeKoordinates
 
-    def setup_A_Stern_sets(self, startNodeKoordinates):
-
-        for i in range(0, self.area.rows):
-            for j in range(0, self.area.cols):
-                self.area.cell_grid[i][j].add_neighbors(self.area.cell_grid, self.area.rows, self.area.cols)
-
-        # A_star_setup
-        # Nodes that still needs to be evaluated
-        self.openSet = [self.area.cell_grid[startNodeKoordinates[0]][startNodeKoordinates[1]]]
+    def setup_A_Stern_setup(self):
+        self.area.fill_neighbors_for_each_cell()
+        self.openSet = [self.area.cell_grid[self.startNodeKoordinates[0]][self.startNodeKoordinates[1]]]
 
     def heuristic(self, point_a_x: float, point_a_y: float, point_b_x: float, point_b_y: float):
         return np.sqrt(float((point_a_x - point_b_x)**2 + (point_a_y - point_b_y)**2))
 
-    # One Step of A_star_algoithm
-    def A_star(self, endNodeKoordinates):
-        endNode = self.area.cell_grid[endNodeKoordinates[0]][endNodeKoordinates[1]]
-        lowestIndex: int = 0
-        for i in range(0, len(self.openSet)):
-            if(self.openSet[i].f < self.openSet[lowestIndex].f):
-                lowestIndex = i
+    def backtrack_path(self, endNode):
+        self.path = [endNode]
+        temp: Cell = endNode
+        while(temp.previous):
+            self.path.append(temp.previous)
+            temp = temp.previous
 
-        if(len(self.openSet) == 0):
-            self.noPathExist = True
-            return
-        current: Cell = self.openSet[lowestIndex]
-        if(current == endNode):
-            self.pathFound = True
-            self.path = [endNode]
-            temp: Cell = current
-            while(temp.previous):
-                self.path.append(temp.previous)
-                temp = temp.previous
-            return
-
+    def process_current_node(self, current: Cell, endNode: Cell):
         self.openSet.remove(current)
         self.closedSet.append(current)
-
         neighbors: List[Cell] = current.neighbors
+
         for neighbor in neighbors:
             if not(neighbor in self.closedSet):
                 g_from_current: float = current.g + 1
+
+                neighbor_in_openSet = (neighbor in self.openSet)
+
                 if(neighbor in self.openSet):
                     if(g_from_current < neighbor.g):
                         neighbor.g = g_from_current
@@ -77,7 +65,29 @@ class A_star_search_algorithm:
                     neighbor.f = neighbor.g + neighbor.h
                     neighbor.previous = current
                     self.openSet.append(neighbor)
-        return
+
+    def check_no_path_exists(self):
+        if(len(self.openSet) == 0):
+            self.noPathExist = True
+            return
+
+    def A_star_step(self, endNodeKoordinates):
+        endNode = self.area.cell_grid[endNodeKoordinates[0]][endNodeKoordinates[1]]
+        lowestIndex: int = 0
+        for i in range(0, len(self.openSet)):
+            if(self.openSet[i].f < self.openSet[lowestIndex].f):
+                lowestIndex = i
+
+        if(self.check_no_path_exists()):
+            return
+
+        current: Cell = self.openSet[lowestIndex]
+        if(current == endNode):
+            self.pathFound = True
+            self.backtrack_path(endNode)
+            return
+
+        self.process_current_node(current, endNode)
 
     def reset(self):
         self.openSet: List[Cell] = []

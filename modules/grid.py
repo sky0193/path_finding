@@ -21,3 +21,8 @@ class Grid:
             for j in range(0, self.cols):
                 self.cell_grid[i][j].print_location()
             print("\n", end='')
+
+    def fill_neighbors_for_each_cell(self):
+        for i in range(0, self.rows):
+            for j in range(0, self.cols):
+                self.cell_grid[i][j].add_neighbors(self.cell_grid, self.rows, self.cols)

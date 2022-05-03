@@ -37,4 +37,3 @@ class Cell:
             neighbor = area_grid[i][j - 1]
             if not(neighbor.obstacle):
                 self.neighbors.append(neighbor)
-

@@ -114,12 +114,11 @@ def main():
     start_algorithm = False
     
     area = create_grid(GRID_CELLS, GRID_CELLS)
-    a_star_search = A_star_search_algorithm(area)
-
-    setUPCells = False
-
     startNodeKoordinates = (0, 0)
     endNodeKoordinates = (GRID_CELLS - 1, GRID_CELLS - 1)
+    a_star_search = A_star_search_algorithm(area, startNodeKoordinates, endNodeKoordinates)
+
+    setUPCells = False
 
     while not done:
         mySurface_start_x = 0
@@ -149,11 +148,10 @@ def main():
 
         if(start_algorithm):
             if not(setUPCells):
-                a_star_search.setup_A_Stern_sets(
-                    startNodeKoordinates=startNodeKoordinates)
+                a_star_search.setup_A_Stern_setup()
                 setUPCells = True
 
-            a_star_search.A_star(endNodeKoordinates=endNodeKoordinates)
+            a_star_search.A_star_step(endNodeKoordinates=endNodeKoordinates)
             draw_A_star_processing(a_star_search, mySurface2)
 
         draw_obstacles(area, mySurface2)
