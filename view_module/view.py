@@ -1,27 +1,11 @@
 ﻿import pygame
 import view_helper.colors
-from view_modules.button import Button
+from view_module.button import Button
 from typing import List
-from rectangle import Rectangle
+from view_module.rectangle import Rectangle
 
-
-WIDTH = 600
-HEIGHT = 600
-WINDOWSIZE = WIDTH, HEIGHT
-
-GRID_CELLS = 5
-
-LENGTH_FIRST_SURFACE = 100
-LENGTH_SECOND_SURFACE = (HEIGHT - LENGTH_FIRST_SURFACE)
-
-
-# This sets the margin between each cell
-MARGIN = 1
-MARGIN_WIDTH = MARGIN * GRID_CELLS + 2
-MARGIN_LENGTH = MARGIN * GRID_CELLS + 2
-
-WIDTH_CELL = (WIDTH - MARGIN_WIDTH) / GRID_CELLS
-HEIGHT_CELL = (LENGTH_SECOND_SURFACE - MARGIN_LENGTH) / GRID_CELLS
+from constants import GRID_CELLS
+from view_helper.view_constants import WIDTH, HEIGHT, WINDOWSIZE, MARGIN, LENGTH_FIRST_SURFACE, LENGTH_SECOND_SURFACE
 
 
 def set_up_start_button(mySurface) -> Button:
@@ -49,6 +33,12 @@ def set_up_reset_button(mySurface) -> Button:
 class View:
     def __init__(self):
         self.displaysurface = pygame.display.set_mode(WINDOWSIZE)
+
+        self.margin_width = MARGIN * GRID_CELLS + 2
+        self.margin_length = MARGIN * GRID_CELLS + 2
+
+        self.width_cell = (WIDTH - self.margin_width) / GRID_CELLS
+        self.height_cell = (LENGTH_SECOND_SURFACE - self.margin_length) / GRID_CELLS
 
         self.mySurface_width = WIDTH
         self.mySurface_length = LENGTH_FIRST_SURFACE
@@ -78,10 +68,10 @@ class View:
     def draw_rectangle(self, i, j, color, surface) -> pygame.Rect:
         return pygame.draw.rect(surface,
                                 color,
-                                [(MARGIN + WIDTH_CELL) * j + MARGIN,
-                                 (MARGIN + HEIGHT_CELL) * i + MARGIN,
-                                 WIDTH_CELL,
-                                 HEIGHT_CELL])
+                                [(MARGIN + self.width_cell) * j + MARGIN,
+                                 (MARGIN + self.height_cell) * i + MARGIN,
+                                 self.width_cell,
+                                 self.height_cell])
 
     def draw_obstacles(self, area) -> None:
         for i in range(0, GRID_CELLS):
@@ -112,10 +102,10 @@ class View:
     def create_view_rectangles(self):
         for row in range(GRID_CELLS):
             for column in range(GRID_CELLS):
-                rec: pygame.Rect = pygame.Rect((MARGIN + WIDTH_CELL) * column + MARGIN,
-                                               (MARGIN + HEIGHT_CELL) * row + MARGIN,
-                                               WIDTH_CELL,
-                                               HEIGHT_CELL)
+                rec: pygame.Rect = pygame.Rect((MARGIN + self.width_cell) * column + MARGIN,
+                                               (MARGIN + self.height_cell) * row + MARGIN,
+                                               self.width_cell,
+                                               self.height_cell)
                 rectangle = Rectangle(row, column, rec)
                 self.rectangles.append(rectangle)
 

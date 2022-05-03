@@ -1,6 +1,6 @@
 ﻿import pygame
 from path_search_algorithms import A_star_search_algorithm, create_grid
-from view import View
+from view_module.view import View
 from typing import List
 from constants import GRID_CELLS
 
