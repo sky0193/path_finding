@@ -1,0 +1,1 @@
+﻿GRID_CELLS = 5
