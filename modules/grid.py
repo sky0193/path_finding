@@ -10,11 +10,7 @@ class Grid:
         '''
         self.rows: int = rows
         self.cols: int = col
-        self.openSet: List[Cell] = []
-        self.closedSet: List[Cell] = []
-        self.path: List[Cell] = []
-        self.pathFound: bool = False
-        self.noPathExist: bool = False
+        
         self.cell_grid = []
 
     def initialize_grid(self):
@@ -25,11 +21,3 @@ class Grid:
             for j in range(0, self.cols):
                 self.cell_grid[i][j].print_location()
             print("\n", end='')
-
-    def reset(self):
-        self.openSet: List[Cell] = []
-        self.closedSet: List[Cell] = []
-        self.path: List[Cell] = []
-        self.pathFound: bool = False
-        self.noPathExist: bool = False
-        self.initialize_grid()

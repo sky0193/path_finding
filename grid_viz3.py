@@ -1,5 +1,5 @@
 ﻿import pygame
-import path_search_algorithms
+from path_search_algorithms import A_star_search_algorithm, create_grid
 import view_helper.colors
 from view_modules.button import Button
 from typing import List
@@ -79,14 +79,14 @@ def draw_basic_grid(area, mySurface2) -> List[Rectangle]:
             rectangles.append(rectangle)
     return rectangles
 
-def draw_A_star_processing(area, mySurface2):
-    if not(area.pathFound):
-        for cell in area.openSet:
+def draw_A_star_processing(a_star_search, mySurface2):
+    if not(a_star_search.pathFound):
+        for cell in a_star_search.openSet:
             draw_rectangle(cell.i, cell.j, view_helper.colors.GREEN, mySurface2)
-        for cell in area.closedSet:
+        for cell in a_star_search.closedSet:
             draw_rectangle(cell.i, cell.j, view_helper.colors.RED, mySurface2)
     else:
-        for cell in area.path:
+        for cell in a_star_search.path:
             draw_rectangle(cell.i, cell.j, view_helper.colors.BLUE_LIGTH, mySurface2)
 
 
@@ -112,8 +112,10 @@ def main():
     button_reset = set_up_reset_button(mySurface)
 
     start_algorithm = False
+    
+    area = create_grid(GRID_CELLS, GRID_CELLS)
+    a_star_search = A_star_search_algorithm(area)
 
-    area = path_search_algorithms.create_grid(GRID_CELLS, GRID_CELLS)
     setUPCells = False
 
     startNodeKoordinates = (0, 0)
@@ -147,12 +149,12 @@ def main():
 
         if(start_algorithm):
             if not(setUPCells):
-                path_search_algorithms.setup_A_Stern_sets(
-                    area=area, startNodeKoordinates=startNodeKoordinates)
+                a_star_search.setup_A_Stern_sets(
+                    startNodeKoordinates=startNodeKoordinates)
                 setUPCells = True
 
-            path_search_algorithms.A_star(area=area, endNodeKoordinates=endNodeKoordinates)
-            draw_A_star_processing(area, mySurface2)
+            a_star_search.A_star(endNodeKoordinates=endNodeKoordinates)
+            draw_A_star_processing(a_star_search, mySurface2)
 
         draw_obstacles(area, mySurface2)
         draw_start_end_node(startNodeKoordinates, endNodeKoordinates, mySurface2)
@@ -167,7 +169,7 @@ def main():
         if(button_reset.pressed):
             start_algorithm = False
             setUPCells = False
-            area.reset()
+            a_star_search.reset()
 
         clock.tick(20)
         pygame.display.update()
