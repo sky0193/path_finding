@@ -8,6 +8,12 @@ from modules.cell import Cell
 from modules.grid import Grid
 
 
+def create_grid(rows, cols):
+    ''' '''
+    area: Grid = Grid(rows, cols)
+    area.initialize_grid()
+    area.print_grid()
+    return area
 
 
 class A_star_search_algorithm:
