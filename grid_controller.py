@@ -21,27 +21,20 @@ def main():
     start_node_coordinates = (start_node_coordinates_x, start_node_coordinates_y)
 
     grid_view = View()
-    area: Grid = create_grid(GRID_CELLS, GRID_CELLS)
     areaMaze: GridMaze = create_grid_Maze(GRID_CELLS, GRID_CELLS)
 
-    maze = MazeRandomDFS(areaMaze, (start_node_coordinates_x + 1, start_node_coordinates_y))
+    maze = MazeRandomDFS(areaMaze, (start_node_coordinates_x, start_node_coordinates_y))
     maze.process()
+    area = maze.area
     end_node_coordinates = maze.endNodeKoordinates
 
-    a_star_search = AStarSearchAlgorithm(area, start_node_coordinates, end_node_coordinates)
+    a_star_search = AStarSearchAlgorithm(maze.area, start_node_coordinates, end_node_coordinates)
 
-
-    for i in range(0, areaMaze.rows):
-            for j in range(0, areaMaze.cols):
-                area.cell_grid[i][j].obstacle = areaMaze.cell_grid[i][j].status == CellStatus.Unvisited
-    area.cell_grid[start_node_coordinates_x][start_node_coordinates_y].obstacle = False
-    area.cell_grid[end_node_coordinates[0]][end_node_coordinates[1]].obstacle = False
 
     while not done_main_loop:
         grid_view.update_surface()
         grid_view.create_view_rectangles()
         grid_view.draw_basic_grid()
-        #grid_view.draw_grid(area)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -63,7 +56,6 @@ def main():
             grid_view.draw_A_star_processing(a_star_search)
 
         grid_view.draw_start_end_node(start_node_coordinates, end_node_coordinates)
-
         grid_view.draw_obstacles(area)
 
         if grid_view.button_start.pressed:
