@@ -21,11 +21,11 @@ def main():
     start_node_coordinates = (start_node_coordinates_x, start_node_coordinates_y)
 
     grid_view = View()
-    areaMaze: GridMaze = create_grid_Maze(GRID_CELLS, GRID_CELLS)
 
+    areaMaze: GridMaze = create_grid_Maze(GRID_CELLS, GRID_CELLS)
     maze = MazeRandomDFS(areaMaze, (start_node_coordinates_x, start_node_coordinates_y))
     maze.process()
-    area = maze.area
+
     end_node_coordinates = maze.endNodeKoordinates
 
     a_star_search = AStarSearchAlgorithm(maze.area, start_node_coordinates, end_node_coordinates)
@@ -44,7 +44,7 @@ def main():
                 global_pos = (pos[0], pos[1] - grid_view.mySurface_length)
                 for rectangle in grid_view.rectangles:
                     if rectangle.rectangle.collidepoint(global_pos):
-                        area.cell_grid[rectangle.i][rectangle.j].obstacle = True
+                        maze.area.cell_grid[rectangle.i][rectangle.j].obstacle = True
                         pygame.display.flip()
 
         if(start_path_searching):
@@ -56,7 +56,7 @@ def main():
             grid_view.draw_A_star_processing(a_star_search)
 
         grid_view.draw_start_end_node(start_node_coordinates, end_node_coordinates)
-        grid_view.draw_obstacles(area)
+        grid_view.draw_obstacles(maze.area)
 
         if grid_view.button_start.pressed:
             start_path_searching = True
@@ -65,21 +65,13 @@ def main():
             setup_cells = False
             a_star_search.reset()
         if grid_view.generate_maze.pressed:
-            areaMaze: GridMaze = create_grid_Maze(GRID_CELLS, GRID_CELLS)
 
-            maze = MazeRandomDFS(areaMaze, (start_node_coordinates_x + 1, start_node_coordinates_y))
+            areaMaze: GridMaze = create_grid_Maze(GRID_CELLS, GRID_CELLS)
+            maze = MazeRandomDFS(areaMaze, (start_node_coordinates_x, start_node_coordinates_y))
             maze.process()
             end_node_coordinates = maze.endNodeKoordinates
-            a_star_search = AStarSearchAlgorithm(area, start_node_coordinates, end_node_coordinates)
-            for i in range(0, areaMaze.rows):
-                    for j in range(0, areaMaze.cols):
-                        area.cell_grid[i][j].obstacle = areaMaze.cell_grid[i][j].status == CellStatus.Unvisited
-            area.cell_grid[start_node_coordinates_x][start_node_coordinates_y].obstacle = False
-            area.cell_grid[end_node_coordinates[0]][end_node_coordinates[1]].obstacle = False
-            
- 
+            a_star_search = AStarSearchAlgorithm(maze.area, start_node_coordinates, end_node_coordinates)
         
-
         #clock.tick(20)
         pygame.display.update()
 
